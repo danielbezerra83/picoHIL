@@ -1,5 +1,7 @@
 # picoHIL
-Raspberry pi pico based Hardware-In-the-Loop. Este projeto consiste de:<br>
+Raspberry pi pico based Hardware-In-the-Loop. 
+![Diagrama](images/picoHIL.png)<br>
+Este projeto consiste de:<br>
 - Um conjunto de solvers para sistemas lineares do tipo A.x=B
 - Um pequeno motor de análise nodal de circuitos (picoSPICE)
 - Possibilidade de iteração com o mundo externo através de PWM como DAC e canais ADC para
@@ -11,8 +13,16 @@ A iteração é feita através de:<br>
 - DACs via PWM+RC que servem para observar a diferença de potencial entre nós ou a corrente nos elementos.
 - I/O (essencialmente input) cujo objetivo é acionar interruptores controlados (elementos SWITCH).
 O diagrama abaixo exibe a idéia principal:<br>
-![Diagrama](images/picoHIL.png)<br>
 
+# Passo-A-Passo
+Para rodar o picoHIL na Raspberry pi PICO:
+- Instalar do VS Code + Extensão da Raspberry Pi Pico.
+- Importar o projeto.
+- Compilar e descarregar na placa.<br>
+Exemplos de uso:
+...
+...
+...
 
 
 Quaisquer dúvidas: danielbezerra@ifce.edu.br
