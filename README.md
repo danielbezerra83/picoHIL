@@ -12,17 +12,17 @@ A iteração é feita através de:<br>
 - ADCs que servem como fontes de tensão ou corrente, com a respectiva adaptação de faixa de tensão e offset.<br>
 - DACs via PWM+RC que servem para observar a diferença de potencial entre nós ou a corrente nos elementos.
 - I/O (essencialmente input) cujo objetivo é acionar interruptores controlados (elementos SWITCH).
-O diagrama abaixo exibe a idéia principal:<br>
+O diagrama abaixo exibe a conexão com o pico2:<br>
+
 
 # Passo-A-Passo
-Para rodar o picoHIL na Raspberry pi PICO:
+Para rodar o picoHIL na Raspberry pi PICO (testado apenas na pico2 por enquanto):
 - Instalar do VS Code + Extensão da Raspberry Pi Pico.
 - Importar o projeto.
 - Compilar e descarregar na placa.<br>
 Exemplos de uso:
-...
-...
-...
+- Circuito RL com fonte senoidal interna associada à fonte externa imposta pelo sinal no ADC, corrente e tensão disponibilizadas nos PWMDAC.
+- Circuito RLC com fonte senoidal externa imposta pelo ADC, corrente e tensão disponibilizadas nos PWMDAC.
 
 
 Quaisquer dúvidas: danielbezerra@ifce.edu.br
