@@ -284,6 +284,23 @@ int ms_add_inductor(ms_circuit_t *c, int a, int b, float L)
     return ms_add_element_base(c, MS_ELEM_L, a, b, L);
 }
 
+ms_rl_series_t ms_add_series_rl_helper(ms_circuit_t *c, int node_a, int node_b, float R, float L)
+{
+    ms_rl_series_t result = { -1, -1, -1 };
+
+    // Cria nó intermediário automaticamente
+    int n_mid = ++c->nodes;
+
+    // Adiciona resistor entre node_a e n_mid
+    result.resistor_index = ms_add_resistor(c, node_a, n_mid, R);
+
+    // Adiciona indutor entre n_mid e node_b
+    result.inductor_index = ms_add_inductor(c, n_mid, node_b, L);
+
+    result.intermediate_node = n_mid;
+    return result;
+}
+
 int ms_add_current_source(ms_circuit_t *c, int a, int b, float dc_value)
 {
     int idx = ms_add_element_base(c, MS_ELEM_I, a, b, 1.0f);

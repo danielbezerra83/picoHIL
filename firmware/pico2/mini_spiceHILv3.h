@@ -108,6 +108,17 @@ typedef struct {
     volatile float *ext;
 } ms_source_t;
 
+
+// ======================================================
+// Adiciona malha RL em série entre dois nós
+// ======================================================
+
+typedef struct {
+    int resistor_index;
+    int inductor_index;
+    int intermediate_node;
+} ms_rl_series_t;
+
 // ======================================================
 // ESTRUTURA DE ELEMENTO
 // ======================================================
@@ -166,6 +177,7 @@ void ms_set_solver(ms_circuit_t *c, ms_solver_type_t solver);
 int ms_add_resistor   (ms_circuit_t *c, int a, int b, float R);
 int ms_add_capacitor  (ms_circuit_t *c, int a, int b, float C);
 int ms_add_inductor   (ms_circuit_t *c, int a, int b, float L);
+ms_rl_series_t ms_add_series_rl_helper(ms_circuit_t *c, int node_a, int node_b, float R, float L);
 int ms_add_current_source(ms_circuit_t *c, int a, int b, float dc_value);
 int ms_add_voltage_source(ms_circuit_t *c, int a, int b, float dc_value);
 int ms_add_sine_source(ms_circuit_t *c, int a, int b, 

@@ -187,7 +187,7 @@ int main()
         // Leitura ADC1 e normalizacao
         adc_select_input(1);
         adc1_val = (float)adc_read() / 4095.0f;
-                // Leitura ADC1 e normalizacao
+        // Leitura ADC2 e normalizacao
         adc_select_input(2);
         adc2_val = (float)adc_read() / 4095.0f;
 
