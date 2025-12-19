@@ -24,9 +24,21 @@ Para rodar o picoHIL na Raspberry pi PICO (testado apenas na pico2 por enquanto)
 - Instalar do VS Code + Extensão da Raspberry Pi Pico.
 - Importar o projeto.
 - Compilar e descarregar na placa.<br>
-Exemplos de uso:
-- Circuito RL com fonte senoidal interna associada à fonte externa imposta pelo sinal no ADC, corrente e tensão disponibilizadas nos PWMDAC.
-- Circuito RLC com fonte senoidal externa imposta pelo ADC, corrente e tensão disponibilizadas nos PWMDAC.
+# Exemplos de uso:
+- Circuito RL com fonte senoidal interna associada à fonte externa imposta pelo sinal no ADC, corrente e tensão disponibilizadas nos PWMDAC.<br>
+Neste exemplo duas fontes de tensão estão em série (uma senoidal de 60Hz interna e uma externa lida pelo ADC);<br>
+Na figura abaixo o Canal 4 de azul exibe a tensão externa; o Canal 1 de amarelo exibe o resultado da associação e o Canal 2 (azul claro) exibe o valor da corrente através do indutor emulado.<br>
+![Diagrama](images/RLSINEXTv0.png)<br>
+- Circuito RLC com fonte senoidal externa imposta pelo ADC, corrente e tensão disponibilizadas nos PWMDAC.<br>
+Na figura abaixo o Canal 4 de azul exibe a tensão externa; o Canal 1 de amarelo a leitura da corrente através do indutor emualado e o Canal 2 (azul claro) exibe a tensão no capacitor emulado. O circuito está submetido a uma senoide bem próxima da frequencia de ressonancia.<br>
+![Diagrama](images/RLCEXTfRESv0.png)<br>
+Nesta outra simulação, o circuito está com frequencia acima da de ressonância.
+![Diagrama](images/RLCEXT_AbvfRESv0.png)<br>
 
-Quaisquer dúvidas: daniel.bez.ifce@gmail.com
+# TODO:
+- Corrigir bugs.<br>
+- Expandir para mais placas (STM32, Pico 1, TMS320F28xyz, etc).<br>
+- Construir mais exemplos com outras fontes e outros tipos de circuitos.<br>
 
+Quaisquer dúvidas: daniel.bez.ifce@gmail.com <br>
+Boa simulação!
