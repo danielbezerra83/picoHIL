@@ -103,6 +103,7 @@ const uint LED_PIN = PICO_DEFAULT_LED_PIN;
 // ======================================================
 extern void setup_circuit(ms_circuit_t *c, volatile float *adc_in);
 extern void output_circuit(ms_circuit_t *c);
+extern void update_sources(ms_circuit_t *c, volatile float *adc_in);
 ms_circuit_t circuit;
 volatile float adc0_val, adc1_val, adc2_val;
 
@@ -199,8 +200,10 @@ int main()
             // Passo de simulação
             now = micros();
             status = ms_circuit_step(&circuit);
-            circuit_stepcost = micros() - now;
+            // Para o exemplo setup_three_phase_rl2()
+            update_sources(&circuit, &adc0_val);
             output_circuit(&circuit);
+            circuit_stepcost = micros() - now;
         }
 
         uint32_t now_millis = millis();
@@ -218,10 +221,12 @@ int main()
                 millis(),
                 circuit_stepcost,
                 adc0_val, adc1_val, adc2_val);
-            printf("picoHIL[%08dms]>> %0.4f, %0.4f\n",
-                millis(),
-                ms_get_node_voltage(&circuit, 1),
-                ms_get_resistor_current(&circuit, 2));
+            // Descomentar as linhas abaixo para observar os valores nos nós
+            // ou elementos para validacao de simulacao.
+            //printf("picoHIL[%08dms]>> %0.4f, %0.4f\n",
+            //    millis(),
+            //    ms_get_node_voltage(&circuit, 1),
+            //    ms_get_resistor_current(&circuit, 2));
         }
 
     }
