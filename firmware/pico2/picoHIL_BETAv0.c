@@ -51,6 +51,7 @@
 #include "hardware/clocks.h"
 #include "hardware/uart.h"
 #include "hardware/pwm.h"
+#include "hardware/watchdog.h"
 #include "mini_spiceHILv3.h"
 
 
@@ -97,6 +98,7 @@ int64_t alarm_callback(alarm_id_t id, void *user_data) {
 #define UART_RX_PIN 5
 
 const uint LED_PIN = PICO_DEFAULT_LED_PIN;
+const uint GPIO22_MONITOR_OUTPUT = 22;
 
 // ======================================================
 // MAIN
@@ -110,9 +112,10 @@ volatile float adc0_val, adc1_val, adc2_val;
 int main()
 {
     stdio_init_all();
-
-    gpio_init(LED_PIN);
+    gpio_init(LED_PIN);     gpio_init(GPIO22_MONITOR_OUTPUT);
+    
     gpio_set_dir(LED_PIN, GPIO_OUT);
+    gpio_set_dir(GPIO22_MONITOR_OUTPUT, GPIO_OUT);
 
     // ✅ Configura ADCs
     adc_init();
@@ -154,6 +157,11 @@ int main()
     printf("USB Clock Frequency is %d Hz\n", clock_get_hz(clk_usb));
     // For more examples of clocks use see https://github.com/raspberrypi/pico-examples/tree/master/clocks
 
+    if (watchdog_caused_reboot()) {
+        printf("Reboot causado pelo Watchdog!\n");
+    }
+    watchdog_enable(5000, true);        // 5000us
+
     // Set up our UART
     uart_init(UART_ID, BAUD_RATE);
     // Set the TX and RX pins by using the function select on the GPIO
@@ -182,6 +190,7 @@ int main()
     uint32_t blink_update = millis();
     uint64_t last_step = micros();
     while (true) {
+        watchdog_update();
         // Leitura ADC0 e normalizacao
         adc_select_input(0);
         adc0_val = (float)adc_read() / 4095.0f;
@@ -195,16 +204,29 @@ int main()
         // Controle de passo em tempo real
         uint64_t circuit_stepcost, now = micros();
         if (now - last_step >= (uint64_t)(circuit.dt * 1e6)) {
-            last_step = now;
+            last_step += (uint64_t)(circuit.dt * 1e6); // avanço fixo
+            //last_step = now;
 
             // Passo de simulação
-            now = micros();
+            gpio_put(GPIO22_MONITOR_OUTPUT, true);
+            uint64_t step_start = micros();
             status = ms_circuit_step(&circuit);
             // Para o exemplo setup_three_phase_rl2()
             update_sources(&circuit, &adc0_val);
             output_circuit(&circuit);
-            circuit_stepcost = micros() - now;
+            circuit_stepcost = micros() - step_start;
+            gpio_put(GPIO22_MONITOR_OUTPUT, false);
         }
+
+        if (circuit.t >= 10.0f) circuit.t = 0.0f;       
+        //
+        // Realiza um reset => importante para garantir que
+        // as funcoes trigonometricas se comportem de forma
+        // estavel durante a simulacao de longo termo.
+        // Testar valores de acordo com a demanda.
+        // Ex. t > 120 produz problemas de calculo na senoide
+        // com f = 60.0Hz.
+        // 
 
         uint32_t now_millis = millis();
         if(now_millis - blink_update > 250)
@@ -217,8 +239,9 @@ int main()
             }
 
 
-            printf("picoHIL[%08dms]>> steplen: %ldus adc0-2: %0.4f %0.4f %0.4f\n", 
+            printf("picoHIL[%08dms]>> t:%0.4f steplen: %ldus adc0-2: %0.4f %0.4f %0.4f\n", 
                 millis(),
+                circuit.t,
                 circuit_stepcost,
                 adc0_val, adc1_val, adc2_val);
             // Descomentar as linhas abaixo para observar os valores nos nós

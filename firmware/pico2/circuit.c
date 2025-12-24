@@ -46,12 +46,12 @@
 // DEFINIÇÕES PARA SELECIONAR O EXEMPLO DE CIRCUITO
 // SELECIONE APENAS UM.
 // ======================================================
-#define EXEMPLO_RLC_SIMPLE_V1       1 // <== ATIVO
+#define EXEMPLO_RLC_SIMPLE_V1       0 // <== ATIVO
 #define EXEMPLO_RLC_SIMPLE_V2       0
 #define EXEMPLO_RL_SIMPLE           0
 #define EXEMPLO_RL_MULTISOURCE      0
 #define EXEMPLO_TRIFASICO_V1        0
-#define EXEMPLO_TRIFASICO_V2        0
+#define EXEMPLO_TRIFASICO_V2        1
 #define MY_CIRCUIT        0
 
 
@@ -373,7 +373,7 @@ void setup_three_phase_rl2(ms_circuit_t *c, volatile float *adc_in)
 {
     // Nós: 3 fases (A=1, B=2, C=3) + fonte externa (D=4) + terra (0)
     // 
-    ms_circuit_init(c, 6, 100e-6f); // dt = 100 µs
+    ms_circuit_init(c, 6, 150e-6f); // dt = 150 µs p/ garantir 60.0Hz com boa precisao.
 
     // Fontes senoidais por fase (tensão fase-terra)
     Va = ms_add_voltage_source(c, 1, 0, 0.0f);
