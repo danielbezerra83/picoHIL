@@ -6,12 +6,12 @@ Este projeto consiste de:<br>
 - Um pequeno motor de análise nodal de circuitos (picoSPICE)
 - Possibilidade de iteração com o mundo externo através de PWM como DAC e canais ADC para
 interação com o circuito.
-- Execução em tempo quasi-real do circuito (depende do número de nós e elementos).<br>
+- Execução em tempo quasi-real do circuito (depende do número de nós e elementos).<br><br>
 O objetivo é que o microcontrolador emule circuitos internamente, porém iteragindo com o mundo externo.<br>
 A iteração é feita através de:<br>
 - ADCs que servem como fontes de tensão ou corrente, com a respectiva adaptação de faixa de tensão e offset.<br>
 - DACs via PWM+RC que servem para observar a diferença de potencial entre nós ou a corrente nos elementos.
-- I/O (essencialmente input) cujo objetivo é acionar interruptores controlados (elementos SWITCH).<br>
+- I/O (essencialmente input) cujo objetivo é acionar interruptores controlados (elementos SWITCH).<br><br>
 O diagrama abaixo exibe a conexão com o pico2:<br>
 ![Diagrama](images/Raspberry-Pi-Pico-2-rp2350-low-res-pinout-mischianti.jpg)<br>
 ADC: GP26 - ADC0, GP27 - ADC1, GP28 - ADC2<br>
@@ -39,6 +39,7 @@ Nesta outra simulação, o circuito está com frequencia acima da de ressonânci
 - Corrigir bugs.<br>
 - Expandir para mais placas (STM32, Pico 1, TMS320F28xyz, etc).<br>
 - Construir mais exemplos com outras fontes e outros tipos de circuitos.<br>
-
-Quaisquer dúvidas: daniel.bez.ifce@gmail.com <br>
+- Suporte para sistemas dual-core (um core para simulação e outro para comms).
+- Display I2C como pequeno osciloscópio (em máquinas dual-core apenas).<br><br>
+Quaisquer dúvidas: daniel.bez.ifce@gmail.com <br><br>
 Boa simulação!
