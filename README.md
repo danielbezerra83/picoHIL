@@ -15,7 +15,7 @@ A iteração é feita através de:<br>
 O diagrama abaixo exibe a conexão com o pico2:<br>
 ![Diagrama](images/Raspberry-Pi-Pico-2-rp2350-low-res-pinout-mischianti.jpg)<br>
 ADC: GP26 - ADC0, GP27 - ADC1, GP28 - ADC2<br>
-PWM: GP16 - PWM0A, GP17 - PWM0B, GP18 - PWM1A, GP18 - PWM1B<br>
+PWM: GP16 - PWM0A, GP17 - PWM0B, GP18 - PWM1A, GP19 - PWM1B<br>
 Nos pinos de PWM foram inseridas redes R-C (2k2 e 10nF) como filtro passa-baixa (formando um PWMDAC).<br>
 Na placa que eu desenvolvi, optei por inserir um LM358 como seguidor em cada um dos 4 filtros PB.<br>
 
