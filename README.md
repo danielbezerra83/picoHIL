@@ -39,7 +39,7 @@ Nesta outra simulação, o circuito está com frequencia acima da de ressonânci
 - Corrigir bugs.<br>
 - Expandir para mais placas (STM32, Pico 1, TMS320F28xyz, etc).<br>
 - Construir mais exemplos com outras fontes e outros tipos de circuitos.<br>
-- Suporte para sistemas dual-core (um core para simulação e outro para comms).
+- Suporte para sistemas dual-core (um core para simulação e outro para comms). (Na v0.3 está feita uma versão inicial para operacao com dois núcleos).<br>
 - Display I2C como pequeno osciloscópio (em máquinas dual-core apenas).<br><br>
 Quaisquer dúvidas: daniel.bez.ifce@gmail.com <br><br>
 Boa simulação!
