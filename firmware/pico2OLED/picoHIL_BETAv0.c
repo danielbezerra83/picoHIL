@@ -103,7 +103,9 @@ int64_t alarm_callback(alarm_id_t id, void *user_data) {
 const uint LED_PIN = PICO_DEFAULT_LED_PIN;
 const uint GPIO22_MONITOR_OUTPUT = 22;
 
-const uint GPIO6_INPUT = 6;
+// GPIOs definidas na PCB do picoHIL
+const uint GPIO6_INPUT = 6, GPIO7_INPUT = 7, GPIO8_INPUT = 8, GPIO9_INPUT = 9;
+const uint GPIO10_OUTPUT = 10, GPIO11_OUTPUT = 11, GPIO12_OUTPUT = 12, GPIO13_OUTPUT = 13;
 
 // ======================================================
 // MAIN
@@ -155,11 +157,15 @@ int main()
     adc_gpio_init(27); // ADC1
     adc_gpio_init(28); // ADC2
 
-    // ✅ Configura PWMs
+    // ✅ Configura todos os PWMs para a PCB.
+    setup_pwm(14, PWM_CHAN_A, 0); // PWM7A
+    setup_pwm(15, PWM_CHAN_B, 0); // PWM7B
     setup_pwm(16, PWM_CHAN_A, 0); // PWM0A
     setup_pwm(17, PWM_CHAN_B, 0); // PWM0B
     setup_pwm(18, PWM_CHAN_A, 0); // PWM1A
     setup_pwm(19, PWM_CHAN_B, 0); // PWM1B
+    setup_pwm(20, PWM_CHAN_A, 0); // PWM2A
+    setup_pwm(21, PWM_CHAN_B, 0); // PWM2B
 
     // Interpolator example code
     interp_config cfg = interp_default_config();

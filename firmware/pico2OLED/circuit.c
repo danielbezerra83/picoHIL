@@ -50,8 +50,8 @@
 #define EXEMPLO_RLC_SIMPLE_V2       0
 #define EXEMPLO_RL_SIMPLE           0
 #define EXEMPLO_RL_MULTISOURCE      0
-#define EXEMPLO_BOOST               1
-#define EXEMPLO_TRIFASICO_V1        0
+#define EXEMPLO_BOOST               0
+#define EXEMPLO_TRIFASICO_V1        1
 #define EXEMPLO_TRIFASICO_V2        0
 #define MY_CIRCUIT        0
 
@@ -538,14 +538,18 @@ void outputs_three_phase_rl(ms_circuit_t *c)
     uint16_t dB = ms_signal_to_pwm(Vb, 1.0f/(2.0f*V_max), 0.5f, PWM_WRAP + 1);
     uint16_t dC = ms_signal_to_pwm(Vc, 1.0f/(2.0f*V_max), 0.5f, PWM_WRAP + 1);
 
-    pwm_set_chan_level(pwm_gpio_to_slice_num(16), PWM_CHAN_A, dA);
-    pwm_set_chan_level(pwm_gpio_to_slice_num(17), PWM_CHAN_B, dB);
-    pwm_set_chan_level(pwm_gpio_to_slice_num(18), PWM_CHAN_A, dC);
+    pwm_set_chan_level(pwm_gpio_to_slice_num(14), PWM_CHAN_A, dA);
+    pwm_set_chan_level(pwm_gpio_to_slice_num(15), PWM_CHAN_B, dB);
+    pwm_set_chan_level(pwm_gpio_to_slice_num(20), PWM_CHAN_A, dC);
 
 
-    float iR1 = ms_get_resistor_current(c, 3);
-    uint16_t duty = ms_signal_to_pwm(iR1, 1.00f, 0.5f, PWM_WRAP);
-    pwm_set_chan_level(pwm_gpio_to_slice_num(19), PWM_CHAN_B, duty); 
+    float iR1 = ms_get_resistor_current(c, 4);
+    const float R = 10.0f;
+    const float I_max = V_max / R; // corrente pico aproximada
+    //uint16_t duty = ms_signal_to_pwm(iR1, 1.00f, 0.5f, PWM_WRAP);
+    uint16_t duty = ms_signal_to_pwm(iR1, 1.0f/(2.0f*I_max), 0.5f, PWM_WRAP);
+    
+    pwm_set_chan_level(pwm_gpio_to_slice_num(21), PWM_CHAN_B, duty); 
 
     /***************************************************************
     // Correntes nas fases (guardadas em user_i[])
