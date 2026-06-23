@@ -51,8 +51,8 @@
 #define EXEMPLO_RL_SIMPLE           0
 #define EXEMPLO_RL_MULTISOURCE      0
 #define EXEMPLO_BOOST               0
-#define EXEMPLO_TRIFASICO_V1        1
-#define EXEMPLO_TRIFASICO_V2        0
+#define EXEMPLO_TRIFASICO_V1        0
+#define EXEMPLO_TRIFASICO_V2        1
 #define MY_CIRCUIT        0
 
 
@@ -490,7 +490,7 @@ void setup_three_phase_rl2(ms_circuit_t *c, volatile float *adc_in)
 
     // Carga RL por fase (estrela para terra)
     const float R = 10.0f;
-    const float L = 50e-3f;
+    const float L = 50.0e-3f;
 
     // Fase A: nó 1 -> R -> nó 4 -> L -> terra
     int Ra = ms_add_resistor(c, 1, 4, R);
@@ -542,8 +542,11 @@ void outputs_three_phase_rl(ms_circuit_t *c)
     pwm_set_chan_level(pwm_gpio_to_slice_num(15), PWM_CHAN_B, dB);
     pwm_set_chan_level(pwm_gpio_to_slice_num(20), PWM_CHAN_A, dC);
 
-
-    float iR1 = ms_get_resistor_current(c, 4);
+    #if (EXEMPLO_TRIFASICO_V1 == 1)
+        float iR1 = ms_get_resistor_current(c, 4);      // Para circuito 1
+    #else
+        float iR1 = ms_get_resistor_current(c, 3);      // Para circuito 2
+    #endif 
     const float R = 10.0f;
     const float I_max = V_max / R; // corrente pico aproximada
     //uint16_t duty = ms_signal_to_pwm(iR1, 1.00f, 0.5f, PWM_WRAP);
